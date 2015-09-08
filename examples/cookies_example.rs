@@ -1,7 +1,9 @@
 #[macro_use] extern crate nickel;
+extern crate nickel_cookies;
 extern crate cookie;
 
-use nickel::{Nickel, HttpRouter, Cookies, QueryString};
+use nickel_cookies::Cookies;
+use nickel::{Nickel, HttpRouter, QueryString};
 use cookie::Cookie;
 
 fn main() {
@@ -32,7 +34,7 @@ fn main() {
     // Try `curl -c /tmp/cookie -b /tmp/cookie http://localhost:6767/secure?value=foobar`
     // when the `secure_cookies` feature is enabled
     // i.e. `cargo run --example cookies_example --features secure_cookies
-    if cfg!(feature = "secure_cookies") {
+    if cfg!(feature = "secure") {
         server.get("/secure", middleware! { |req, mut res|
             let jar = res.cookies_mut()
                          .encrypted();

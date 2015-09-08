@@ -1,0 +1,26 @@
+[package]
+name = "nickel_cookies"
+version = "0.1.0"
+authors = ["Kevin Butler <haqkrs@gmail.com>"]
+
+[features]
+default = ["secure"]
+secure = ["cookie/secure"]
+
+[dependencies]
+typemap = "*"
+plugin = "*"
+lazy_static = "*"
+rand = "*"
+
+[dependencies.nickel]
+version = "^0.6"
+git = "https://github.com/nickel-org/nickel.rs"
+
+[dependencies.cookie]
+version = "^0.1"
+default-features = false
+
+[dependencies.hyper]
+version = "^0.6"
+default-features = false

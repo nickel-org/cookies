@@ -1,4 +1,4 @@
-use {Request, Response};
+use nickel::{Request, Response};
 use plugin::{Plugin, Pluggable};
 use typemap::Key;
 use hyper::header;
@@ -33,7 +33,7 @@ where D: KeyProvider {
     type Error = ();
 
     fn eval(req: &mut Request<D>) -> Result<CookieJar<'static>, ()> {
-        let key = req.data().key();
+        let key = req.server_data().key();
         let jar = match req.origin.headers.get::<header::Cookie>() {
             Some(c) => c.to_cookie_jar(&key.0),
             None => CookieJar::new(&key.0)
@@ -57,7 +57,7 @@ where D: KeyProvider {
             res.set(header);
         });
 
-        let key = res.data().key();
+        let key = res.server_data().key();
         Ok(CookieJar::new(&key.0))
     }
 }
@@ -92,10 +92,10 @@ pub trait KeyProvider {
     }
 }
 
-#[cfg(feature = "secure_cookies")]
+#[cfg(feature = "secure")]
 impl KeyProvider for () {}
 
-#[cfg(not(feature = "secure_cookies"))]
+#[cfg(not(feature = "secure"))]
 impl<T> KeyProvider for T {
     fn key(&self) -> SecretKey {
         SecretKey([0; 32])
