@@ -12,10 +12,7 @@ typemap = "*"
 plugin = "*"
 lazy_static = "*"
 rand = "*"
-
-[dependencies.nickel]
-version = "^0.6"
-git = "https://github.com/nickel-org/nickel.rs"
+nickel = "^0.7"
 
 [dependencies.cookie]
 version = "^0.1"
