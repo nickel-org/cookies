@@ -12,12 +12,12 @@ typemap = "0.3"
 plugin = "0.2"
 lazy_static = "0.2"
 rand = "0.3"
-nickel = "^0.7"
+nickel = "^0.8"
 
 [dependencies.cookie]
-version = "^0.1"
+version = "^0.2"
 default-features = false
 
 [dependencies.hyper]
-version = "^0.6"
+version = "^0.8"
 default-features = false
