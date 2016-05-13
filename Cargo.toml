@@ -2,6 +2,9 @@
 name = "nickel_cookies"
 version = "0.1.0"
 authors = ["Kevin Butler <haqkrs@gmail.com>"]
+description = "Cookies support for nickel.rs"
+license = "MIT"
+repository = "https://github.com/nickel-org/cookies"
 
 [features]
 default = ["secure"]
