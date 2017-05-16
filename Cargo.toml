@@ -15,12 +15,13 @@ typemap = "0.3"
 plugin = "0.2"
 lazy_static = "0.2"
 rand = "0.3"
-nickel = "^0.9"
+# nickel = "^0.9"
+nickel = { git = "https://github.com/jolhoeft/nickel.rs.git", branch = "upgrade" }
 
 [dependencies.cookie]
-version = "^0.2"
+version = "^0.8"
 default-features = false
 
 [dependencies.hyper]
-version = "^0.9"
+version = "^0.10"
 default-features = false
