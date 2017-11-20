@@ -34,9 +34,11 @@ where D: KeyProvider {
 
     fn eval(req: &mut Request<D>) -> Result<CookieJar, ()> {
         let jar = match req.origin.headers.get::<header::Cookie>() {
-            //Some(c) => c.to_cookie_jar(&key.0),
-            Some(c) => c.iter().filter_map(|s| s.parse::<Cookie>().ok()).
-                fold(CookieJar::new(), |mut jar, cookie| { jar.add_original(cookie); jar }),
+            Some(c) => {
+                c.iter()
+                    .filter_map(|s| s.parse::<Cookie>().ok())
+                    .fold(CookieJar::new(), |mut jar, cookie| { jar.add_original(cookie); jar })
+            },
             None => CookieJar::new()
         };
 
