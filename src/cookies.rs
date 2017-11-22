@@ -65,10 +65,6 @@ where D: KeyProvider {
     }
 }
 
-/// Trait to whitelist access to `&'mut CookieJar` via the `Cookies` trait.
-pub trait AllowMutCookies {}
-impl<'a, D> AllowMutCookies for Response<'a, D> {}
-
 /// Provide the key used for decoding secure CookieJars
 ///
 /// Cookies require a random key for their signed and encrypted cookies to be
@@ -96,7 +92,7 @@ pub trait KeyProvider {
 }
 
 #[cfg(feature = "secure")]
-impl KeyProvider for () {}
+impl<T> KeyProvider for T {}
 
 #[cfg(not(feature = "secure"))]
 impl<T> KeyProvider for T {
@@ -123,7 +119,7 @@ pub trait Cookies {
     fn cookies(&mut self) -> &CookieJar;
 
     /// Provides access to a mutable CookieJar.
-    fn cookies_mut(&mut self) -> &mut CookieJar where Self: AllowMutCookies;
+    fn cookies_mut(&mut self) -> &mut CookieJar;
 }
 
 impl<'mw, 'conn, D> Cookies for Request<'mw, 'conn, D>
@@ -132,8 +128,8 @@ where D: KeyProvider {
         self.get_ref::<CookiePlugin>().unwrap()
     }
 
-    fn cookies_mut(&mut self) -> &mut <CookiePlugin as Key>::Value where Self: AllowMutCookies {
-        unreachable!()
+    fn cookies_mut(&mut self) -> &mut <CookiePlugin as Key>::Value {
+        self.get_mut::<CookiePlugin>().unwrap()
     }
 }
 
@@ -143,7 +139,7 @@ where D: KeyProvider {
         self.get_ref::<CookiePlugin>().unwrap()
     }
 
-    fn cookies_mut(&mut self) -> &mut <CookiePlugin as Key>::Value where Self: AllowMutCookies {
+    fn cookies_mut(&mut self) -> &mut <CookiePlugin as Key>::Value {
         self.get_mut::<CookiePlugin>().unwrap()
     }
 }
