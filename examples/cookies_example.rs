@@ -4,8 +4,12 @@ extern crate cookie;
 
 use nickel_cookies::{Cookies, KeyProvider};
 use nickel::{Nickel, HttpRouter, QueryString, Request, Response, MiddlewareResult};
+#[cfg(feature = "secure")]
 use cookie::{Cookie, Key};
+#[cfg(not(feature = "secure"))]
+use cookie::Cookie;
 
+#[cfg(feature = "secure")]
 fn secure_middleware<'mw, 'conn, D: KeyProvider>(req: &mut Request<'mw, 'conn, D>, mut res: Response<'mw, D>) -> MiddlewareResult<'mw, D> {
     let old_value = { // block for borrow management
         let server_key = res.server_data().key();
@@ -28,6 +32,11 @@ fn secure_middleware<'mw, 'conn, D: KeyProvider>(req: &mut Request<'mw, 'conn, D
             .map(|c| c.value().to_owned())
     };
     res.send(format!("Old value was {:?}", old_value))
+}
+
+#[cfg(not(feature = "secure"))]
+fn secure_middleware<'mw, 'conn, D: KeyProvider>(_: &mut Request<'mw, 'conn, D>, res: Response<'mw, D>) -> MiddlewareResult<'mw, D> {
+    res.next_middleware()
 }
 
 fn main() {
