@@ -92,7 +92,7 @@ pub trait KeyProvider {
 }
 
 #[cfg(feature = "secure")]
-impl<T> KeyProvider for T {}
+impl KeyProvider for () {}
 
 #[cfg(not(feature = "secure"))]
 impl<T> KeyProvider for T {
