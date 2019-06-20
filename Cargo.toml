@@ -1,6 +1,6 @@
 [package]
 name = "nickel_cookies"
-version = "0.3.0"
+version = "0.3.1"
 authors = ["Kevin Butler <haqkrs@gmail.com>"]
 description = "Cookies support for nickel.rs"
 license = "MIT"
